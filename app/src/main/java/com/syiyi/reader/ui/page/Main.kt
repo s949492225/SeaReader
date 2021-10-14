@@ -11,7 +11,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.outlined.AutoStories
-import androidx.compose.material.icons.outlined.Book
 import androidx.compose.material.icons.outlined.TravelExplore
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -50,7 +49,7 @@ fun isTabSelected(currentDestination: NavDestination?, screen: MainFragmentScree
 }
 
 @Composable
-fun Main() {
+fun Main(onSearch: () -> Unit = {}) {
     val activity = (LocalContext.current as? Activity)
     BackHandler { activity?.finish() }
     val tabNavController = rememberNavController()
@@ -98,7 +97,7 @@ fun Main() {
                     startDestination = MainFragmentScreen.Shelf.route,
                     Modifier.padding(innerPadding)
                 ) {
-                    composable(MainFragmentScreen.Shelf.route) { Shelf() }
+                    composable(MainFragmentScreen.Shelf.route) { Shelf(onSearch = onSearch) }
                     composable(MainFragmentScreen.Mine.route) { Mine() }
                     composable(MainFragmentScreen.Source.route) { Source() }
                 }

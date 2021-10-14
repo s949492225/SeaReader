@@ -21,7 +21,7 @@ fun Splash(onNext: () -> Unit) {
     //3秒后跳转
     val currentOnNext by rememberUpdatedState(onNext)
     LaunchedEffect(true) {
-        delay(3000)
+        delay(0)
         currentOnNext()
     }
 

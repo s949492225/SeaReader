@@ -1,17 +1,18 @@
 package com.syiyi.reader.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
+import com.syiyi.reader.model.Book
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 
 class SourceViewModel : ViewModel() {
 
-    private val mutableResultState = MutableStateFlow<Any>(0)
-    val resultState: StateFlow<Any> = mutableResultState
+    private val mutableSearchState = MutableStateFlow<List<Book>>(emptyList())
+    val searchState: StateFlow<List<Book>> = mutableSearchState
 
 
-    fun exe(context: Context) {
+    fun search(keyword: String) {
+
     }
 }

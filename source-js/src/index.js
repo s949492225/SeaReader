@@ -1,35 +1,35 @@
 import cheerio from "cheerio";
-import request from 'sync-request';
+// import request from 'sync-request';
 
 
-function log(message) {
-    console.log(message)
-}
-
-function fetch(url, headers, body) {
-    let method = body ? "POST" : "GET"
-
-    let params = {}
-
-    if (headers != null) {
-        let realHeader = {}
-        headers.forEach(item => {
-            realHeader[item.name] = item.value
-        })
-        params['headers'] = realHeader
-    }
-
-    if (body != null) {
-        let realBody = ""
-        body.forEach(item => {
-            realBody += `${item.name}=${item.value}&`
-        })
-        params['body'] = realBody
-    }
-
-    let res = request(method, url, params);
-    return res.getBody('utf8')
-}
+// function log(message) {
+//     console.log(message)
+// }
+//
+// function fetch(url, headers, body) {
+//     let method = body ? "POST" : "GET"
+//
+//     let params = {}
+//
+//     if (headers != null) {
+//         let realHeader = {}
+//         headers.forEach(item => {
+//             realHeader[item.name] = item.value
+//         })
+//         params['headers'] = realHeader
+//     }
+//
+//     if (body != null) {
+//         let realBody = ""
+//         body.forEach(item => {
+//             realBody += `${item.name}=${item.value}&`
+//         })
+//         params['body'] = realBody
+//     }
+//
+//     let res = request(method, url, params);
+//     return res.getBody('utf8')
+// }
 
 function property(name, value) {
     let object = {}
@@ -89,7 +89,7 @@ function parseList(keyword) {
 }
 
 
-function search(keyword) {
+export function search(keyword) {
     try {
         let retJson = parseList(keyword)
         log(`搜索完成:${retJson.length}--------`)
@@ -102,4 +102,4 @@ function search(keyword) {
     }
 }
 
-search("斗破苍穹")
+// search("斗破苍穹")

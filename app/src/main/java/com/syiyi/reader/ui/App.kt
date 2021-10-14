@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.ProvideWindowInsets
 import com.syiyi.reader.ui.page.Main
+import com.syiyi.reader.ui.page.Search
 import com.syiyi.reader.ui.page.Splash
 import com.syiyi.reader.ui.theme.SeaReaderTheme
 
@@ -32,7 +33,12 @@ fun App(window: Window? = null) {
                         })
                     }
                     composable(Screen.Main.name) {
-                        Main()
+                        Main(onSearch = {
+                            navController.navigate(Screen.Search.name)
+                        })
+                    }
+                    composable(Screen.Search.name) {
+                        Search()
                     }
                 }
             }

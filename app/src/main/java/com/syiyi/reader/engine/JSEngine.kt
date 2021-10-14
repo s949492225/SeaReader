@@ -5,6 +5,9 @@ import com.hippo.quickjs.android.*
 import com.syiyi.reader.other.HttpClient
 import com.syiyi.reader.util.toJson
 import com.syiyi.reader.util.toModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resumeWithException
 
 
 @Suppress("unused")
@@ -24,32 +27,46 @@ object JSEngine {
         return HttpClient.fetch(url, headers, formBody)
     }
 
-    inline fun <reified T> execute(script: String, method: String, vararg parameters: Any): T? {
+    @ExperimentalCoroutinesApi
+    suspend inline fun <reified T> execute(
+        script: String,
+        method: String,
+        vararg parameters: Any
+    ): T? {
         val jsRuntime = QuickJs().createJSRuntime()
         val context = jsRuntime.createJSContext()
-        try {
-            buildLogJSMethod(context)
 
-            buildFetchJSMethod(context)
+        return suspendCancellableCoroutine { continuation ->
 
-            context.evaluate(script, "source.js")
-
-            val jsMethod = buildSourceMethod(method, parameters)
-
-            while (context.executePendingJob()) {
-                println("执行promise中...")
+            continuation.invokeOnCancellation {
+                context.close()
+                jsRuntime.close()
             }
 
-            val result =
-                context.evaluate("source.$jsMethod", "exe-source.js", String::class.java)
+            try {
+                buildLogJSMethod(context)
 
-            return result.toModel()
+                buildFetchJSMethod(context)
 
-        } catch (e: Exception) {
-            throw JSExecuteException(e.message, e.cause)
-        } finally {
-            context.close()
-            jsRuntime.close()
+                context.evaluate(script, "source.js")
+
+                val jsMethod = buildSourceMethod(method, parameters)
+
+                while (context.executePendingJob()) {
+                    println("执行promise中...")
+                }
+
+                val result =
+                    context.evaluate("source.$jsMethod", "exe-source.js", String::class.java)
+
+                continuation.resume(result.toModel(), {})
+
+            } catch (e: Exception) {
+                continuation.resumeWithException(JSExecuteException(e.message, e.cause))
+            } finally {
+                context.close()
+                jsRuntime.close()
+            }
         }
     }
 
