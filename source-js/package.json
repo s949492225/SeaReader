@@ -1,0 +1,26 @@
+{
+  "name": "source-jb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "node_modules/.bin/webpack"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "lodash": "^4.17.21",
+    "std": "^0.1.40",
+    "webpack": "^5.58.1",
+    "webpack-cli": "^4.9.0"
+  },
+  "dependencies": {
+    "axios": "^0.23.0",
+    "cheerio": "^1.0.0-rc.10",
+    "request": "^2.88.2",
+    "sync-request": "^6.1.0"
+  },
+  "_id": "source-jb@1.0.0",
+  "type": "module"
+}
