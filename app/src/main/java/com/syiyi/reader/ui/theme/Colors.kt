@@ -11,6 +11,7 @@ class Colors(
     secondary: Color = Color(0xFF03DAC6),
     background: Color = Color.White,
     surface: Color = Color.White,
+    navigation: Color = Color.White,
     titleTextColor: Color = Color.White,
     secondTitleTextColor: Color = Color.White,
     tabSelectColor: Color = Color.White,
@@ -24,6 +25,8 @@ class Colors(
     var background by mutableStateOf(background, structuralEqualityPolicy())
         internal set
     var surface by mutableStateOf(surface, structuralEqualityPolicy())
+        internal set
+    var navigation by mutableStateOf(navigation, structuralEqualityPolicy())
         internal set
     var titleTextColor by mutableStateOf(titleTextColor, structuralEqualityPolicy())
         internal set
@@ -41,6 +44,7 @@ class Colors(
         secondary: Color = this.secondary,
         background: Color = this.background,
         surface: Color = this.surface,
+        navigation: Color = this.navigation,
         titleTextColor: Color = this.titleTextColor,
         secondTitleTextColor: Color = this.secondTitleTextColor,
         tabSelectColor: Color = this.tabSelectColor,
@@ -51,6 +55,7 @@ class Colors(
         secondary,
         background,
         surface,
+        navigation,
         titleTextColor,
         secondTitleTextColor,
         tabSelectColor,

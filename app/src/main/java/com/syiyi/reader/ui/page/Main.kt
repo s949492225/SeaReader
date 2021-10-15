@@ -63,8 +63,8 @@ fun Main(sourceViewModel: SourceViewModel, onSearch: () -> Unit = {}) {
                 modifier = Modifier.weight(1F),
                 bottomBar = {
                     BottomNavigation(
-                        elevation = 0.dp,
-                        backgroundColor = AppTheme.colors.surface
+                        elevation = 4.dp,
+                        backgroundColor = AppTheme.colors.navigation
                     ) {
                         val navBackStackEntry by tabNavController.currentBackStackEntryAsState()
                         val currentDestination = navBackStackEntry?.destination
@@ -115,7 +115,7 @@ fun Main(sourceViewModel: SourceViewModel, onSearch: () -> Unit = {}) {
             Spacer(
                 modifier = Modifier
                     .navigationBarsHeight()
-                    .background(AppTheme.colors.surface)
+                    .background(AppTheme.colors.navigation)
                     .fillMaxWidth()
             )
         }
