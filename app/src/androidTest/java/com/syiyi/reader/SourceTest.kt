@@ -57,4 +57,22 @@ class SourceTest {
             assert(targetSource.script.isNotEmpty())
         }
     }
+
+    @Test
+    fun addList() = runBlocking {
+        val localSourceRepository = LocalSourceRepository(appContext.cacheDir)
+
+        localSourceRepository.deleteAll()
+
+        val sourceList = (0 until 60).map {
+            source.copy().apply {
+                key += "$it"
+                name += "$it"
+            }
+        }
+        localSourceRepository.add(sourceList)
+
+        val list = localSourceRepository.list()
+        assert(list.size == 60)
+    }
 }

@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 val DarkColorPalette = Colors(
     primary = Color(0xFF121212),
     secondary = Color(0xCC121212),
-    background = Color(0xFF1A1A1A),
+    background = Color(0xFF272727),
     surface = Color(0xFF0E0E0E),
     titleTextColor = Color.White,
     secondTitleTextColor = Color(0xCCFFFFFF),

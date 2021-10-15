@@ -1,6 +1,7 @@
 package com.syiyi.reader.ui.page
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -24,13 +25,13 @@ import com.syiyi.reader.ui.theme.AppTheme
 import com.syiyi.reader.viewmodel.SourceViewModel
 
 @Composable
-fun Search(sourceViewModel: SourceViewModel = viewModel()) {
+fun Search(sourceViewModel: SourceViewModel = viewModel(), onBack: () -> Unit) {
     val scope = rememberCoroutineScope()
     val inputState by remember { mutableStateOf("") }
     Surface(color = AppTheme.colors.surface, modifier = Modifier.fillMaxSize()) {
         Column(modifier = Modifier.background(Color.Transparent)) {
             Spacer(modifier = Modifier.statusBarsPadding())
-            SearchBar(onChange = {})
+            SearchBar(onChange = {}, onBack = onBack)
         }
     }
 }
@@ -38,7 +39,8 @@ fun Search(sourceViewModel: SourceViewModel = viewModel()) {
 @Preview
 @Composable
 fun SearchBar(
-    onChange: (String) -> Unit = {}
+    onChange: (String) -> Unit = {},
+    onBack: () -> Unit = {},
 ) {
     var inputState by remember { mutableStateOf("") }
 
@@ -91,7 +93,9 @@ fun SearchBar(
         }
         Text(
             text = "取消",
-            modifier = Modifier.padding(start = 16.dp),
+            modifier = Modifier
+                .padding(start = 16.dp)
+                .clickable { onBack() },
             color = AppTheme.colors.titleTextColor,
             style = MaterialTheme.typography.button,
         )

@@ -12,9 +12,9 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        val list = mutableListOf(7, 5, 3, 9)
-        list.sort()
+        val list = (0 until 60).map { it }
 
-        assert(list[0] == 3)
+        print(list)
+        assert(list.size == 60)
     }
 }

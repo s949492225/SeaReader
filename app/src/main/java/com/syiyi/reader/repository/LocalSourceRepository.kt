@@ -18,27 +18,18 @@ class LocalSourceRepository(cacheRoot: File) : SourceRepository {
 
     init {
         if (!cacheDir.exists() || cacheDir.isFile) {
-            cacheDir.mkdir()
+            cacheDir.mkdirs()
         }
     }
 
     override suspend fun add(source: Source) = withContext(Dispatchers.IO) {
         writeMutex.withLock {
-            val list = cacheDir.listFiles()
-            //找到最后一个源文件
-            var lastIndex = 0
-            if (!list.isNullOrEmpty()) {
-                list.sortBy { it.name }
-                val lastName = list.last().nameWithoutExtension
-                lastIndex = lastName.toInt()
-            }
-
             //创建源文件
-            val sourceFile = File(cacheDir, "${source.name}.source")
-            sourceFile.deleteOnExit()
-            val success = sourceFile.createNewFile()
-            check(success) { "源文件创建失败,请检查磁盘是否故障" }
-
+            val sourceFile = File(cacheDir, "${source.key}.source")
+            if (!sourceFile.exists()) {
+                val success = sourceFile.createNewFile()
+                check(success) { "源文件创建失败,请检查磁盘是否故障" }
+            }
             //写入源
             sourceFile.writeText(source.toJson())
         }
@@ -49,11 +40,11 @@ class LocalSourceRepository(cacheRoot: File) : SourceRepository {
         writeMutex.withLock {
             sourceList.forEach { source ->
                 //创建源文件
-                val sourceFile = File(cacheDir, "${source.name}.source")
-                sourceFile.deleteOnExit()
-                val success = sourceFile.createNewFile()
-                check(success) { "源文件创建失败,请检查磁盘是否故障" }
-
+                val sourceFile = File(cacheDir, "${source.key}.source")
+                if (!sourceFile.exists()) {
+                    val success = sourceFile.createNewFile()
+                    check(success) { "源文件创建失败,请检查磁盘是否故障" }
+                }
                 //写入源
                 sourceFile.writeText(source.toJson())
             }
@@ -63,7 +54,13 @@ class LocalSourceRepository(cacheRoot: File) : SourceRepository {
 
     override suspend fun delete(source: Source) = withContext(Dispatchers.IO) {
         writeMutex.withLock {
-            File(cacheDir, "${source.name}.source").deleteOnExit()
+            File(cacheDir, "${source.key}.source").deleteOnExit()
+        }
+    }
+
+    suspend fun deleteAll() = withContext(Dispatchers.IO) {
+        writeMutex.withLock {
+            cacheDir.listFiles()?.forEach { it.deleteOnExit() }
         }
     }
 

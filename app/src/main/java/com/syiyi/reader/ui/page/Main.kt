@@ -27,6 +27,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.navigationBarsHeight
 import com.syiyi.reader.ui.theme.AppTheme
+import com.syiyi.reader.viewmodel.SourceViewModel
 
 sealed class MainFragmentScreen(
     val route: String,
@@ -49,7 +50,7 @@ fun isTabSelected(currentDestination: NavDestination?, screen: MainFragmentScree
 }
 
 @Composable
-fun Main(onSearch: () -> Unit = {}) {
+fun Main(sourceViewModel: SourceViewModel, onSearch: () -> Unit = {}) {
     val activity = (LocalContext.current as? Activity)
     BackHandler { activity?.finish() }
     val tabNavController = rememberNavController()
@@ -99,7 +100,7 @@ fun Main(onSearch: () -> Unit = {}) {
                 ) {
                     composable(MainFragmentScreen.Shelf.route) { Shelf(onSearch = onSearch) }
                     composable(MainFragmentScreen.Mine.route) { Mine() }
-                    composable(MainFragmentScreen.Source.route) { Source() }
+                    composable(MainFragmentScreen.Source.route) { Source(sourceViewModel) }
                 }
             }
             Spacer(

@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.insets.statusBarsPadding
+import com.syiyi.reader.ui.common.ActionBar
 import com.syiyi.reader.ui.theme.AppTheme
 import com.syiyi.reader.viewmodel.SourceViewModel
 
@@ -30,39 +31,40 @@ fun Shelf(
     val scope = rememberCoroutineScope()
     var password by remember { mutableStateOf("") }
 
-    Surface(color = AppTheme.colors.surface) {
+    Surface(color = AppTheme.colors.surface, modifier = Modifier.fillMaxSize()) {
         Column {
-            Spacer(modifier = Modifier.statusBarsPadding())
-            ConstraintLayout(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(45.dp)
-            ) {
-                val (title, action) = createRefs()
-                Text(
-                    "书架",
-                    style = TextStyle(color = AppTheme.colors.titleTextColor, fontSize = 16.sp),
-                    modifier = Modifier.constrainAs(title) {
-                        centerTo(parent)
+            ActionBar {
+                ConstraintLayout(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(45.dp)
+                ) {
+                    val (title, action) = createRefs()
+                    Text(
+                        "书架",
+                        style = TextStyle(color = AppTheme.colors.titleTextColor, fontSize = 16.sp),
+                        modifier = Modifier.constrainAs(title) {
+                            centerTo(parent)
+                        }
+                    )
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.constrainAs(action) {
+                            end.linkTo(parent.end, margin = 16.dp)
+                            centerVerticallyTo(parent)
+                        }) {
+                        Icon(
+                            Icons.Sharp.Search,
+                            modifier = Modifier.clickable { onSearch() },
+                            contentDescription = "搜索",
+                            tint = AppTheme.colors.titleTextColor
+                        )
+                        Icon(
+                            Icons.Sharp.MoreVert,
+                            contentDescription = "更多",
+                            tint = AppTheme.colors.titleTextColor
+                        )
                     }
-                )
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                    modifier = Modifier.constrainAs(action) {
-                        end.linkTo(parent.end, margin = 16.dp)
-                        centerVerticallyTo(parent)
-                    }) {
-                    Icon(
-                        Icons.Sharp.Search,
-                        modifier = Modifier.clickable { onSearch() },
-                        contentDescription = "搜索",
-                        tint = AppTheme.colors.titleTextColor
-                    )
-                    Icon(
-                        Icons.Sharp.MoreVert,
-                        contentDescription = "更多",
-                        tint = AppTheme.colors.titleTextColor
-                    )
                 }
             }
             Box(
