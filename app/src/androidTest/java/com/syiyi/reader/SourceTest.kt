@@ -46,7 +46,7 @@ class SourceTest {
 
     @Test
     fun add() = runBlocking {
-        val localSourceRepository = LocalSourceRepository(appContext)
+        val localSourceRepository = LocalSourceRepository(appContext.cacheDir)
         localSourceRepository.add(source)
 
         val list = localSourceRepository.list()

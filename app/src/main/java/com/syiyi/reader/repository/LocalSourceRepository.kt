@@ -2,7 +2,6 @@
 
 package com.syiyi.reader.repository
 
-import android.content.Context
 import com.syiyi.reader.model.Source
 import com.syiyi.reader.util.toJson
 import com.syiyi.reader.util.toModel
@@ -12,9 +11,9 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import java.io.File
 
-class LocalSourceRepository(val context: Context) : SourceRepository {
+class LocalSourceRepository(cacheRoot: File) : SourceRepository {
 
-    private val cacheDir = File(context.cacheDir, "source")
+    private val cacheDir = File(cacheRoot, "source")
     private val writeMutex = Mutex()
 
     init {
@@ -35,7 +34,8 @@ class LocalSourceRepository(val context: Context) : SourceRepository {
             }
 
             //创建源文件
-            val sourceFile = File(cacheDir, "${lastIndex + 1}.source")
+            val sourceFile = File(cacheDir, "${source.name}.source")
+            sourceFile.deleteOnExit()
             val success = sourceFile.createNewFile()
             check(success) { "源文件创建失败,请检查磁盘是否故障" }
 
@@ -47,18 +47,10 @@ class LocalSourceRepository(val context: Context) : SourceRepository {
 
     override suspend fun add(sourceList: List<Source>) = withContext(Dispatchers.IO) {
         writeMutex.withLock {
-            val list = cacheDir.listFiles()
-            //找到最后一个源文件
-            var lastIndex = 0
-            if (!list.isNullOrEmpty()) {
-                list.sortBy { it.name }
-                val lastName = list.last().nameWithoutExtension
-                lastIndex = lastName.toInt()
-            }
-
             sourceList.forEach { source ->
                 //创建源文件
-                val sourceFile = File(cacheDir, "${lastIndex + 1}.source")
+                val sourceFile = File(cacheDir, "${source.name}.source")
+                sourceFile.deleteOnExit()
                 val success = sourceFile.createNewFile()
                 check(success) { "源文件创建失败,请检查磁盘是否故障" }
 
@@ -71,7 +63,7 @@ class LocalSourceRepository(val context: Context) : SourceRepository {
 
     override suspend fun delete(source: Source) = withContext(Dispatchers.IO) {
         writeMutex.withLock {
-            File(cacheDir, "${source.index}.source").deleteOnExit()
+            File(cacheDir, "${source.name}.source").deleteOnExit()
         }
     }
 
@@ -86,9 +78,7 @@ class LocalSourceRepository(val context: Context) : SourceRepository {
         list.sortBy { it.name }
 
         return@withContext list.map { file ->
-            file.readText().toModel<Source>()!!.apply {
-                index = file.nameWithoutExtension.toInt()
-            }
+            file.readText().toModel<Source>()!!
         }
     }
 }
