@@ -39,7 +39,6 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
-        kotlinCompilerVersion '1.5.30'
     }
     packagingOptions {
         resources {
@@ -69,6 +68,7 @@ dependencies {
     implementation "com.github.seven332:quickjs-android:0.1.0"
     implementation "com.squareup.okhttp3:okhttp:4.9.1"
     implementation "com.squareup.moshi:moshi:1.12.0"
+    implementation "androidx.compose.animation:animation:1.0.4"
     kapt "com.squareup.moshi:moshi-kotlin-codegen:1.12.0"
     implementation 'com.google.code.gson:gson:2.8.8'
     testImplementation 'junit:junit:4.13.2'

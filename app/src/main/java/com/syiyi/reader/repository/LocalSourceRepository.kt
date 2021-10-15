@@ -75,7 +75,9 @@ class LocalSourceRepository(cacheRoot: File) : SourceRepository {
         list.sortBy { it.name }
 
         return@withContext list.map { file ->
-            file.readText().toModel<Source>()!!
+            file.readText().toModel<Source>()!!.apply {
+                script = null
+            }
         }
     }
 }

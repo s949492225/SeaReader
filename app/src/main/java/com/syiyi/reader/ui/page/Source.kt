@@ -37,7 +37,9 @@ fun Source(sourceViewModel: SourceViewModel) {
 
     val sourceList by sourceViewModel.listSourceState.collectAsState()
     val context: Context = LocalContext.current
-    sourceViewModel.loadSource(context)
+    LaunchedEffect(true) {
+        sourceViewModel.loadSource(context)
+    }
     Surface(color = AppTheme.colors.surface, modifier = Modifier.fillMaxSize()) {
         Column {
             ActionBar {
@@ -97,9 +99,9 @@ fun SourceRow(
 ) {
     Column(
         modifier = Modifier
-            .background(AppTheme.colors.background, shape = RoundedCornerShape(6.dp))
+            .background(AppTheme.colors.background, shape = RoundedCornerShape(8.dp))
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+            .padding(horizontal = 16.dp, vertical = 12.dp)
     ) {
 
         var visible by remember { mutableStateOf(false) }

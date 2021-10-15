@@ -13,8 +13,9 @@ data class Source(
     var name: String,//名称 例如起点中文网
     var key: String,//名称 例如起点中文网
     var categories: List<SourceCategory>,//类别列表 例如:热门,武侠,科幻这些都是类别
-    val script: String,//javascript脚本
+    var script: String?,//javascript脚本
 )
+
 /**
  * 书源中类别 例如:热门,武侠,科幻这些都是类别,最多具备两级
  */

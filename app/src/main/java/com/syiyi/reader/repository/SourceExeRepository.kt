@@ -20,8 +20,8 @@ object SourceExeRepository {
      * param keyword 关键词
      */
     @ExperimentalCoroutinesApi
-    suspend fun search(source: Source, keyword: String): List<Book> = withContext(Dispatchers.IO) {
-        val result: List<Book>? = JSEngine.execute(source.script, "search", keyword)
+    suspend fun search(script: String, keyword: String): List<Book> = withContext(Dispatchers.IO) {
+        val result: List<Book>? = JSEngine.execute(script, "search", keyword)
         if (result.isNullOrEmpty()) {
             emptyList()
         } else {

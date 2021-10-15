@@ -2,6 +2,7 @@ package com.syiyi.reader.ui.page
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,6 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.insets.navigationBarsHeight
+import com.syiyi.reader.R
 import com.syiyi.reader.ui.theme.AppTheme
 import com.syiyi.reader.viewmodel.SourceViewModel
 
@@ -49,6 +51,7 @@ fun isTabSelected(currentDestination: NavDestination?, screen: MainFragmentScree
     return currentDestination?.hierarchy?.any { it.route == screen.route } == true
 }
 
+@ExperimentalAnimationApi
 @Composable
 fun Main(sourceViewModel: SourceViewModel, onSearch: () -> Unit = {}) {
     val activity = (LocalContext.current as? Activity)
@@ -61,7 +64,7 @@ fun Main(sourceViewModel: SourceViewModel, onSearch: () -> Unit = {}) {
                 bottomBar = {
                     BottomNavigation(
                         elevation = 0.dp,
-                        backgroundColor = AppTheme.colors.background
+                        backgroundColor = AppTheme.colors.surface
                     ) {
                         val navBackStackEntry by tabNavController.currentBackStackEntryAsState()
                         val currentDestination = navBackStackEntry?.destination
@@ -75,6 +78,12 @@ fun Main(sourceViewModel: SourceViewModel, onSearch: () -> Unit = {}) {
                                 unselectedContentColor = AppTheme.colors.tabUnSelectColor,
                                 onClick = {
                                     tabNavController.navigate(screen.route) {
+                                        anim {
+                                            enter = R.anim.nav_empty_anim
+                                            exit = R.anim.nav_empty_anim
+                                            popEnter = R.anim.nav_empty_anim
+                                            popExit = R.anim.nav_empty_anim
+                                        }
                                         // Pop up to the start destination of the graph to
                                         // avoid building up a large stack of destinations
                                         // on the back stack as users select items
@@ -106,7 +115,7 @@ fun Main(sourceViewModel: SourceViewModel, onSearch: () -> Unit = {}) {
             Spacer(
                 modifier = Modifier
                     .navigationBarsHeight()
-                    .background(AppTheme.colors.background)
+                    .background(AppTheme.colors.surface)
                     .fillMaxWidth()
             )
         }
