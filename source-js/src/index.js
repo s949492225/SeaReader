@@ -1,7 +1,7 @@
 import cheerio from "cheerio";
 // import request from 'sync-request';
-
-
+//
+//
 // function log(message) {
 //     console.log(message)
 // }
@@ -45,6 +45,8 @@ function parseBook(node) {
         ret.name = $('.bookname').text()
         ret.author = $('.author').text()
         ret.coverUrl = $('.bookimg img').attr("src").toString()
+        ret.wordsNumber = $('.bookname').nextAll()[1].children[5].data
+        ret.categoryDesc = $('.bookname').nextAll()[1].children[3].childNodes[0].data
         ret.desc = $('.intro').text()
         ret.newsSection = $('.chapter').text()
         return ret

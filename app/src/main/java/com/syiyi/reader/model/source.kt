@@ -41,8 +41,8 @@ data class Book(
     var wordsNumber: String?,//字数 例如10.2万字
     var categoryDesc: String?,//类别说明 例如现代言情,完结
     var newsSection: String?,//当前最新章节
-    var source: Source?,//当前归属的书源
-    var sections: List<BookSection>?
+    var source: Source? = null,//当前归属的书源
+    var sections: List<BookSection>? = null
 )
 
 /**

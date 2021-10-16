@@ -37,7 +37,7 @@ class SourceTest {
 
     @Test
     fun search() = runBlocking {
-        val result: List<Book>? = JSEngine.execute(source.script, "search", "斗破苍穹")
+        val result: List<Book>? = JSEngine.execute(source.script!!, "search", "斗破苍穹")
 
         println(result.toJson())
 
@@ -53,9 +53,6 @@ class SourceTest {
         val targetSource = list.find { it.name == source.name }
 
         assert(targetSource != null)
-        if (targetSource != null) {
-            assert(targetSource.script.isNotEmpty())
-        }
     }
 
     @Test

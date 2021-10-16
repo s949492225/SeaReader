@@ -80,4 +80,14 @@ class LocalSourceRepository(cacheRoot: File) : SourceRepository {
             }
         }
     }
+
+    override suspend fun inflateScript(source: Source): String = withContext(Dispatchers.IO) {
+        val file = File(cacheDir, "${source.key}.source")
+
+        if (!file.exists()) {
+            throw RuntimeException("source文件丢失")
+        }
+
+        return@withContext file.readText().toModel<Source>()!!.script!!
+    }
 }

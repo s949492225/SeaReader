@@ -3,10 +3,8 @@ package com.syiyi.reader.repository
 import com.syiyi.reader.engine.JSEngine
 import com.syiyi.reader.model.Book
 import com.syiyi.reader.model.BookSection
-import com.syiyi.reader.model.Source
 import com.syiyi.reader.model.SourceCategory
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.withContext
 
 /**
@@ -19,7 +17,6 @@ object SourceExeRepository {
      * 此处会搜索所有书源
      * param keyword 关键词
      */
-    @ExperimentalCoroutinesApi
     suspend fun search(script: String, keyword: String): List<Book> = withContext(Dispatchers.IO) {
         val result: List<Book>? = JSEngine.execute(script, "search", keyword)
         if (result.isNullOrEmpty()) {
@@ -28,6 +25,7 @@ object SourceExeRepository {
             result
         }
     }
+
 
     /**
      * 获取该类别下的书籍

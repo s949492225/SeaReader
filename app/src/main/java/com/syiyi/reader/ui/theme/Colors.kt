@@ -7,15 +7,15 @@ import androidx.compose.runtime.structuralEqualityPolicy
 import androidx.compose.ui.graphics.Color
 
 class Colors(
-    primary: Color = Color(0xFF6200EE),
-    secondary: Color = Color(0xFF03DAC6),
+    primary: Color = Color.White,
+    secondary: Color = Color.White,
     background: Color = Color.White,
-    surface: Color = Color.White,
-    navigation: Color = Color.White,
-    titleTextColor: Color = Color.White,
-    secondTitleTextColor: Color = Color.White,
-    tabSelectColor: Color = Color.White,
-    tabUnSelectColor: Color = Color.White,
+    surface: Color = Color(0xFFEDEDED),
+    navigation: Color = Color(0xFFF7F7F7),
+    titleTextColor: Color = Color.Black,
+    secondTitleTextColor: Color = Color(0xD2000000),
+    tabSelectColor: Color = Color(0xFF21BD64),
+    tabUnSelectColor: Color = Color(0xFF272727),
     theme: Int = 0
 ) {
     var primary by mutableStateOf(primary, structuralEqualityPolicy())

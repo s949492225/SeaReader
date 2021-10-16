@@ -2,7 +2,6 @@ package com.syiyi.reader.ui
 
 import android.content.Context
 import android.view.Window
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
@@ -19,7 +18,6 @@ import com.syiyi.reader.ui.page.Splash
 import com.syiyi.reader.ui.theme.SeaReaderTheme
 import com.syiyi.reader.viewmodel.SourceViewModel
 
-@ExperimentalAnimationApi
 @Composable
 fun App(window: Window? = null) {
 
@@ -51,9 +49,11 @@ fun App(window: Window? = null) {
                             })
                     }
                     composable(Screen.Search.name) {
-                        Search(onBack = {
-                            navController.popBackStack()
-                        })
+                        Search(
+                            sourceViewModel = sourceViewModel,
+                            onBack = {
+                                navController.popBackStack()
+                            })
                     }
                 }
             }

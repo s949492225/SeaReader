@@ -5,7 +5,6 @@ import com.hippo.quickjs.android.*
 import com.syiyi.reader.other.HttpClient
 import com.syiyi.reader.util.toJson
 import com.syiyi.reader.util.toModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resumeWithException
 
@@ -27,7 +26,6 @@ object JSEngine {
         return HttpClient.fetch(url, headers, formBody)
     }
 
-    @ExperimentalCoroutinesApi
     suspend inline fun <reified T> execute(
         script: String,
         method: String,

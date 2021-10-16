@@ -2,7 +2,6 @@ package com.syiyi.reader.ui.page
 
 import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -31,7 +30,6 @@ import com.syiyi.reader.ui.common.ActionBar
 import com.syiyi.reader.ui.theme.AppTheme
 import com.syiyi.reader.viewmodel.SourceViewModel
 
-@ExperimentalAnimationApi
 @Composable
 fun Source(sourceViewModel: SourceViewModel) {
 
@@ -85,7 +83,6 @@ fun Source(sourceViewModel: SourceViewModel) {
     }
 }
 
-@ExperimentalAnimationApi
 @Preview
 @Composable
 fun SourceRow(

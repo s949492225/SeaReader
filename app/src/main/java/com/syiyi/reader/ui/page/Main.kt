@@ -2,7 +2,6 @@ package com.syiyi.reader.ui.page
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -51,7 +50,6 @@ fun isTabSelected(currentDestination: NavDestination?, screen: MainFragmentScree
     return currentDestination?.hierarchy?.any { it.route == screen.route } == true
 }
 
-@ExperimentalAnimationApi
 @Composable
 fun Main(sourceViewModel: SourceViewModel, onSearch: () -> Unit = {}) {
     val activity = (LocalContext.current as? Activity)

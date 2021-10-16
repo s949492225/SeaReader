@@ -12,4 +12,6 @@ interface SourceRepository {
     suspend fun add(sourceList: List<Source>)
 
     suspend fun list(): List<Source>
+
+    suspend fun inflateScript(source: Source): String
 }

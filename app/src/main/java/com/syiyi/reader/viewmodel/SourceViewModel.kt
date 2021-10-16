@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.syiyi.reader.model.Source
 import com.syiyi.reader.repository.LocalSourceRepository
+import com.syiyi.reader.repository.SourceRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -12,26 +13,23 @@ import kotlinx.coroutines.launch
 
 class SourceViewModel : ViewModel() {
 
-    private var localSourceRepository: LocalSourceRepository? = null
+    private var sourceRepository: SourceRepository? = null
+
     private val mutableListSourceState = MutableStateFlow<List<Source>>(emptyList())
     val listSourceState: StateFlow<List<Source>> = mutableListSourceState
 
 
-    fun search(keyword: String) {
-
-    }
-
     fun loadSource(context: Context) {
         viewModelScope.launch {
-            val list = localSourceRepository(context).list()
+            val list = sourceRepository(context).list()
             mutableListSourceState.value = list
         }
     }
 
-    private fun localSourceRepository(context: Context): LocalSourceRepository {
-        if (localSourceRepository == null) {
-            localSourceRepository = LocalSourceRepository(context.cacheDir)
+    private fun sourceRepository(context: Context): SourceRepository {
+        if (sourceRepository == null) {
+            sourceRepository = LocalSourceRepository(context.cacheDir)
         }
-        return localSourceRepository!!
+        return sourceRepository!!
     }
 }
