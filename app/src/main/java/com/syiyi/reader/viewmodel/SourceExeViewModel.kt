@@ -32,13 +32,12 @@ class SourceExeViewModel : ViewModel() {
 
         lastJob = viewModelScope.launch {
             if (!sourceListState.value.isNullOrEmpty()) {
-                val source = sourceListState.value[0]
-
-                val script = sourceRepository(context).inflateScript(source)
-
-                val listBook = sourceExeRepository.search(script, keyword)
-
-                mutableListBookState.value = listBook
+                runCatching {
+                    val script = sourceRepository(context).inflateScript(sourceListState.value[0])
+                    sourceExeRepository.search(script, keyword)
+                }.onSuccess {
+                    mutableListBookState.value = it
+                }
             }
         }
     }

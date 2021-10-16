@@ -4,17 +4,13 @@ import android.content.Context
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.HighlightOff
 import androidx.compose.material.icons.sharp.Search
@@ -23,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
@@ -31,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberImagePainter
-import coil.transform.RoundedCornersTransformation
+import coil.size.Scale
 import com.google.accompanist.insets.statusBarsPadding
 import com.syiyi.reader.R
 import com.syiyi.reader.model.Book
@@ -88,22 +85,25 @@ fun BookRow(
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        Image(
-            painter = rememberImagePainter(book.coverUrl) {
-                placeholder(R.mipmap.book_place_holder)
-                error(R.mipmap.book_place_holder)
-                fallback(R.mipmap.book_place_holder)
-                fadeIn(0.3f)
-                transformations(
-                    RoundedCornersTransformation(16F),
-                )
-            },
-            contentDescription = null,
-            modifier = Modifier
-                .width(88.dp)
-                .height(122.dp)
-                .border(width = 1.dp, color = Color.Transparent, shape = RoundedCornerShape(16.dp))
-        )
+        Card(
+            elevation = 1.dp,
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            Image(
+                painter = rememberImagePainter(book.coverUrl) {
+                    placeholder(R.mipmap.book_place_holder)
+                    error(R.mipmap.book_place_holder)
+                    fallback(R.mipmap.book_place_holder)
+                    scale(Scale.FILL)
+                    fadeIn(0.1f)
+                },
+                contentScale = ContentScale.FillBounds,
+                contentDescription = null,
+                modifier = Modifier
+                    .width(96.dp)
+                    .height(122.dp)
+            )
+        }
         Column(
             modifier = Modifier
                 .weight(1F)
@@ -218,6 +218,7 @@ fun SearchBar(
                     Icons.Filled.HighlightOff,
                     contentDescription = "清除",
                     modifier = Modifier
+                        .size(35.dp)
                         .padding(horizontal = 8.dp)
                         .clickable {
                             inputState = ""

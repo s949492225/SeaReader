@@ -21,8 +21,11 @@ class SourceViewModel : ViewModel() {
 
     fun loadSource(context: Context) {
         viewModelScope.launch {
-            val list = sourceRepository(context).list()
-            mutableListSourceState.value = list
+            runCatching {
+                sourceRepository(context).list()
+            }.onSuccess {
+                mutableListSourceState.value = it
+            }
         }
     }
 
