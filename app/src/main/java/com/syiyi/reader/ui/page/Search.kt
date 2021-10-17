@@ -40,11 +40,10 @@ import com.syiyi.reader.viewmodel.SourceViewModel
 fun Search(onBack: () -> Unit) {
 
     val context: ComponentActivity = LocalContext.current as ComponentActivity
-    val sourceViewModel = hiltViewModel<SourceViewModel>(context).apply {
-        loadSource()
-    }
+    val sourceViewModel = hiltViewModel<SourceViewModel>(context)
 
     val sourceExeViewModel: SourceExeViewModel = hiltViewModel()
+
     val bookList by sourceExeViewModel.listBookState.collectAsState()
 
     fun search(keyword: String) {
@@ -55,7 +54,9 @@ fun Search(onBack: () -> Unit) {
         Column(modifier = Modifier.background(Color.Transparent)) {
             Spacer(modifier = Modifier.statusBarsPadding())
             SearchBar(
-                onChange = { search(it) },
+                onChange = {
+                    search(it)
+                },
                 onBack = onBack
             )
             Spacer(modifier = Modifier.height(8.dp))

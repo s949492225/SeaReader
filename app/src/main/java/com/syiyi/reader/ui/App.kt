@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,8 +23,10 @@ import com.syiyi.reader.viewmodel.SourceViewModel
 fun App(window: Window? = null) {
 
     val context: ComponentActivity = LocalContext.current as ComponentActivity
-    hiltViewModel<SourceViewModel>(context).apply {
-        loadSource()
+    val sourceViewModel = hiltViewModel<SourceViewModel>(context)
+
+    LaunchedEffect(true) {
+        sourceViewModel.loadSource()
     }
 
     SeaReaderTheme(window) {
