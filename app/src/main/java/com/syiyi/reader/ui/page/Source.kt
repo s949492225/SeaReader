@@ -1,6 +1,6 @@
 package com.syiyi.reader.ui.page
 
-import android.content.Context
+import androidx.activity.ComponentActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 import com.syiyi.reader.model.Source
@@ -31,13 +32,11 @@ import com.syiyi.reader.ui.theme.AppTheme
 import com.syiyi.reader.viewmodel.SourceViewModel
 
 @Composable
-fun Source(sourceViewModel: SourceViewModel) {
-
+fun Source() {
+    val context: ComponentActivity = LocalContext.current as ComponentActivity
+    val sourceViewModel = viewModel<SourceViewModel>(context)
     val sourceList by sourceViewModel.listSourceState.collectAsState()
-    val context: Context = LocalContext.current
-    LaunchedEffect(true) {
-        sourceViewModel.loadSource(context)
-    }
+
     Surface(color = AppTheme.colors.surface, modifier = Modifier.fillMaxSize()) {
         Column {
             ActionBar {

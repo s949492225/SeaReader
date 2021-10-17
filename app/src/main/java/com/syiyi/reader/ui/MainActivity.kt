@@ -8,7 +8,9 @@ import com.syiyi.reader.ui.theme.Dark
 import com.syiyi.reader.ui.theme.Light
 import com.syiyi.reader.viewmodel.ThemeViewModel
 import com.syiyi.reader.viewmodel.isDarkTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val themeViewModel by viewModels<ThemeViewModel>()

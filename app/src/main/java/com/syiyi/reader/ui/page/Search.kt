@@ -1,6 +1,6 @@
 package com.syiyi.reader.ui.page
 
-import android.content.Context
+import androidx.activity.ComponentActivity
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,7 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberImagePainter
 import coil.size.Scale
 import com.google.accompanist.insets.statusBarsPadding
@@ -37,14 +37,18 @@ import com.syiyi.reader.viewmodel.SourceExeViewModel
 import com.syiyi.reader.viewmodel.SourceViewModel
 
 @Composable
-fun Search(sourceViewModel: SourceViewModel, onBack: () -> Unit) {
-    val sourceExeViewModel: SourceExeViewModel = viewModel()
+fun Search(onBack: () -> Unit) {
+
+    val context: ComponentActivity = LocalContext.current as ComponentActivity
+    val sourceViewModel = hiltViewModel<SourceViewModel>(context).apply {
+        loadSource()
+    }
+
+    val sourceExeViewModel: SourceExeViewModel = hiltViewModel()
     val bookList by sourceExeViewModel.listBookState.collectAsState()
 
-    val context: Context = LocalContext.current
-
     fun search(keyword: String) {
-        sourceExeViewModel.search(context, sourceViewModel.listSourceState, keyword)
+        sourceExeViewModel.search(sourceViewModel.listSourceState, keyword)
     }
 
     Surface(color = AppTheme.colors.surface, modifier = Modifier.fillMaxSize()) {

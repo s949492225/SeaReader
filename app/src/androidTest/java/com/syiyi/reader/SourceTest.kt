@@ -6,7 +6,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.syiyi.reader.engine.JSEngine
 import com.syiyi.reader.model.Book
 import com.syiyi.reader.model.Source
-import com.syiyi.reader.repository.LocalSourceRepository
+import com.syiyi.reader.repository.SourceRepository
 import com.syiyi.reader.util.toJson
 import com.syiyi.reader.util.toModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -46,7 +46,7 @@ class SourceTest {
 
     @Test
     fun add() = runBlocking {
-        val localSourceRepository = LocalSourceRepository(appContext.cacheDir)
+        val localSourceRepository = SourceRepository(appContext.cacheDir)
         localSourceRepository.add(source)
 
         val list = localSourceRepository.list()
@@ -57,7 +57,7 @@ class SourceTest {
 
     @Test
     fun addList() = runBlocking {
-        val localSourceRepository = LocalSourceRepository(appContext.cacheDir)
+        val localSourceRepository = SourceRepository(appContext.cacheDir)
 
         localSourceRepository.deleteAll()
 

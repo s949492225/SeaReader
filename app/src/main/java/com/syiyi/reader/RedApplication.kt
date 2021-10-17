@@ -3,10 +3,9 @@
 package com.syiyi.reader
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
+@HiltAndroidApp
 class RedApplication : Application() {
 
-    override fun onCreate() {
-        super.onCreate()
-    }
 }

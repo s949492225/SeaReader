@@ -1,13 +1,13 @@
 package com.syiyi.reader.ui
 
-import android.content.Context
 import android.view.Window
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -21,9 +21,9 @@ import com.syiyi.reader.viewmodel.SourceViewModel
 @Composable
 fun App(window: Window? = null) {
 
-    val sourceViewModel = viewModel<SourceViewModel>().apply {
-        val context: Context = LocalContext.current
-        loadSource(context)
+    val context: ComponentActivity = LocalContext.current as ComponentActivity
+    hiltViewModel<SourceViewModel>(context).apply {
+        loadSource()
     }
 
     SeaReaderTheme(window) {
@@ -43,14 +43,12 @@ fun App(window: Window? = null) {
                         })
                     }
                     composable(Screen.Main.name) {
-                        Main(sourceViewModel,
-                            onSearch = {
-                                navController.navigate(Screen.Search.name)
-                            })
+                        Main(onSearch = {
+                            navController.navigate(Screen.Search.name)
+                        })
                     }
                     composable(Screen.Search.name) {
                         Search(
-                            sourceViewModel = sourceViewModel,
                             onBack = {
                                 navController.popBackStack()
                             })
