@@ -11,7 +11,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SourceViewModel @Inject constructor(var sourceRepository: SourceRepository) : ViewModel() {
+class SourceViewModel @Inject constructor(private val sourceRepository: SourceRepository) :
+    ViewModel() {
 
     private val mutableListSourceState = MutableStateFlow<List<Source>>(emptyList())
     val listSourceState: StateFlow<List<Source>> = mutableListSourceState
