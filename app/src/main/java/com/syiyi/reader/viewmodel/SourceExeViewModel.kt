@@ -15,14 +15,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SourceExeViewModel @Inject constructor(var sourceRepository: SourceRepository) : ViewModel() {
+class SourceExeViewModel @Inject constructor(
+    private val sourceRepository: SourceRepository,
+    private val sourceExeRepository: SourceExeRepository
+) : ViewModel() {
 
-//    @Inject
-//    lateinit var sourceRepository: SourceRepository
     private val mutableListBookState = MutableStateFlow<List<Book>>(emptyList())
     val listBookState: StateFlow<List<Book>> = mutableListBookState
 
-    private val sourceExeRepository: SourceExeRepository by lazy { SourceExeRepository }
     private var lastJob: Job? = null
 
     fun search(

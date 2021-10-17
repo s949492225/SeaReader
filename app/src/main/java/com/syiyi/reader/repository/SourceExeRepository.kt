@@ -6,11 +6,14 @@ import com.syiyi.reader.model.BookSection
 import com.syiyi.reader.model.SourceCategory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * 书源所有操作的获取逻辑
  */
-object SourceExeRepository {
+@Singleton
+class SourceExeRepository  @Inject constructor() {
 
     /**
      * 根据关键词搜索书籍

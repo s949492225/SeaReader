@@ -16,16 +16,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.syiyi.reader.ui.common.ActionBar
 import com.syiyi.reader.ui.theme.AppTheme
-import com.syiyi.reader.viewmodel.SourceViewModel
 
 @Composable
-fun Shelf(
-    sourceViewModel: SourceViewModel = viewModel(),
-    onSearch: () -> Unit = {}
-) {
+fun Shelf(onSearch: () -> Unit = {}) {
 
     Surface(color = AppTheme.colors.surface, modifier = Modifier.fillMaxSize()) {
         Column {
