@@ -1,34 +1,42 @@
 package com.syiyi.reader
 
 import android.content.Context
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import com.syiyi.reader.engine.JSEngine
 import com.syiyi.reader.model.Book
 import com.syiyi.reader.model.Source
 import com.syiyi.reader.repository.SourceRepository
 import com.syiyi.reader.util.toJson
 import com.syiyi.reader.util.toModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.junit.runner.RunWith
+import javax.inject.Inject
 
-@ExperimentalCoroutinesApi
-@RunWith(AndroidJUnit4::class)
+@HiltAndroidTest
 class SourceTest {
-    private lateinit var appContext: Context
     private lateinit var source: Source
 
-    @ExperimentalCoroutinesApi
+    @get:Rule
+    var hiltRule = HiltAndroidRule(this)
+
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
+    @Inject
+    lateinit var sourceRepository: SourceRepository
+
+    @ApplicationContext
+    @Inject
+    lateinit var appContext: Context
+
     @Before
     fun setup() {
-        appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        hiltRule.inject()
+        
         source = appContext.assets.open("source.json")
             .bufferedReader()
             .use { it.readText() }
@@ -46,10 +54,9 @@ class SourceTest {
 
     @Test
     fun add() = runBlocking {
-        val localSourceRepository = SourceRepository(appContext.cacheDir)
-        localSourceRepository.add(source)
+        sourceRepository.add(source)
 
-        val list = localSourceRepository.list()
+        val list = sourceRepository.list()
         val targetSource = list.find { it.name == source.name }
 
         assert(targetSource != null)
@@ -57,9 +64,8 @@ class SourceTest {
 
     @Test
     fun addList() = runBlocking {
-        val localSourceRepository = SourceRepository(appContext.cacheDir)
 
-        localSourceRepository.deleteAll()
+        sourceRepository.deleteAll()
 
         val sourceList = (0 until 60).map {
             source.copy().apply {
@@ -67,9 +73,9 @@ class SourceTest {
                 name += "$it"
             }
         }
-        localSourceRepository.add(sourceList)
+        sourceRepository.add(sourceList)
 
-        val list = localSourceRepository.list()
+        val list = sourceRepository.list()
         assert(list.size == 60)
     }
 }
